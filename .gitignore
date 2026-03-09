@@ -1,10 +1,16 @@
-# Dependencies
-/node_modules
-/.pnpm-store
+# Dependencies (backend + frontend)
+backend/node_modules/
+frontend/node_modules/
+.pnpm-store
+.pnp
+.pnp.js
 
 # Build output
-/dist
-/build
+frontend/dist/
+backend/dist/
+frontend/build/
+frontend/.next/
+backend/out/
 *.tsbuildinfo
 
 # Logs
@@ -16,19 +22,14 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Runtime
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage
-/coverage
-/.nyc_output
-
 # Environment & secrets
 .env
 .env.local
 .env.*.local
+
+# Coverage
+coverage/
+.nyc_output/
 
 # OS
 .DS_Store
@@ -50,12 +51,17 @@ Thumbs.db
 !.vscode/extensions.json
 
 # Testing
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Runtime
+*.pid
+*.seed
+*.pid.lock
 
 # Misc
 *.swp
 *.swo
 *~
+*.pem
