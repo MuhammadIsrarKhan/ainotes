@@ -60,6 +60,12 @@ playwright/.cache/
 *.seed
 *.pid.lock
 
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/terraform.tfvars
+
 # Misc
 *.swp
 *.swo

@@ -28,3 +28,9 @@ pnpm run dev
 
 - API: http://localhost:3000  
 - App: http://localhost:3001  
+
+## Deploy to AWS (Free Tier)
+
+- **Infrastructure:** [infra/](infra/) – Terraform (VPC, EC2, RDS PostgreSQL).
+- **Deploy configs:** [deploy/](deploy/) – Nginx, PM2, and deploy script.
+- **Full guide:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) – step-by-step deployment, env vars, HTTPS, and CI/CD (GitHub Actions).
