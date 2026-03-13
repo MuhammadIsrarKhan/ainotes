@@ -16,6 +16,7 @@ module.exports = {
       max_memory_restart: '400M',
       env: {
         NODE_ENV: 'production',
+        PORT: '3001',
       },
       env_file: '.env',
     },
@@ -23,7 +24,7 @@ module.exports = {
       name: 'ai-notes-frontend',
       cwd: './frontend',
       script: 'node_modules/.bin/next',
-      args: 'start -p 3001',
+      args: 'start -p 3000',
       instances: 1,
       autorestart: true,
       watch: false,

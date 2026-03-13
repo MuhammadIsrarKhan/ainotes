@@ -4,7 +4,7 @@ Step-by-step deployment of the AI Notes monorepo (NestJS backend + Next.js front
 
 ## Architecture overview
 
-- **EC2** (t2.micro): runs backend (port 3000), frontend (port 3001), and Nginx (80/443). Single instance.
+- **EC2** (t2.micro): runs frontend (port 3000), backend (port 3001), and Nginx (80/443). Single instance.
 - **RDS** (db.t2.micro): PostgreSQL in a private subnet; only EC2 can connect.
 - **Nginx**: reverse proxy. Requests to `/api` go to the backend; everything else to the frontend.
 - **Frontend** must call the API at the same origin with path `/api` (e.g. `https://yourdomain.com/api`). Set `NEXT_PUBLIC_API_URL` to that when building.
@@ -87,7 +87,7 @@ JWT_SECRET=<generate with: openssl rand -base64 32>
 JWT_EXPIRES_IN=1d
 HF_TOKEN=<your Hugging Face token>
 HF_TEXT_MODEL=Qwen/Qwen2.5-7B-Instruct
-PORT=3000
+PORT=3001
 NODE_ENV=production
 CORS_ORIGIN=https://yourdomain.com
 ```
@@ -142,7 +142,7 @@ pm2 save && pm2 startup   # optional: restart on reboot
 
 ### 2.6 Nginx
 
-Terraform user-data configures Nginx to proxy `/api` to port 3000 and `/` to port 3001. If you need to adjust, copy from `deploy/nginx-ai-notes.conf` to `/etc/nginx/sites-available/default` and:
+Terraform user-data configures Nginx to proxy `/api` to port 3001 (backend) and `/` to port 3000 (frontend). If you need to adjust, copy from `deploy/nginx-ai-notes.conf` to `/etc/nginx/sites-available/default` and:
 
 ```bash
 sudo nginx -t && sudo systemctl reload nginx
@@ -204,7 +204,7 @@ The workflow in `.github/workflows/deploy.yml` builds backend and frontend and d
 
 - **502 Bad Gateway**: Backend or frontend not running. SSH and run `pm2 status` and `pm2 logs`.
 - **CORS errors**: Set `CORS_ORIGIN` in `backend/.env` to the exact frontend origin (e.g. `https://yourdomain.com`). No trailing slash.
-- **API 404 on /api/...**: Nginx must proxy `/api/` to `http://127.0.0.1:3000/` (trailing slashes matter so `/api/notes` becomes `/notes`).
+- **API 404 on /api/...**: Nginx must proxy `/api/` to `http://127.0.0.1:3001/` (trailing slashes matter so `/api/notes` becomes `/notes`).
 - **Frontend calls wrong API**: Rebuild the frontend with the correct `NEXT_PUBLIC_API_URL` and redeploy.
 - **RDS connection refused**: EC2 security group must allow outbound; RDS security group must allow 5432 from the EC2 security group. Check RDS is in the same VPC and that `DATABASE_URL` uses the RDS endpoint (not localhost).
 - **Out of memory (t2.micro)**: Ensure only one instance of backend and frontend; consider increasing swap or moving to a larger instance after Free Tier.
