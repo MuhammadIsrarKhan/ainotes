@@ -18,8 +18,10 @@ cd ..
 
 echo "Building frontend..."
 cd frontend
-# NEXT_PUBLIC_API_URL must match your deployed API (e.g. https://yourdomain.com/api or http://EC2_IP/api)
-export NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL:-http://localhost/api}"
+# API base URL: base URL + /api so backend is reached at https://yourdomain.com/api or http://IP/api
+BASE_URL="http://${HOST#*@}"
+export NEXT_PUBLIC_API_URL="${NEXT_PUBLIC_API_URL:-${BASE_URL}/api}"
+echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL"
 pnpm install --frozen-lockfile
 pnpm run build
 cd ..
