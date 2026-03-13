@@ -43,7 +43,7 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, 1)
   availability_zone       = data.aws_availability_zones.available.names[0]
-  map_public_ip_on_launch  = true
+  map_public_ip_on_launch = true
   tags = {
     Name = "${var.project_name}-public"
   }
@@ -54,7 +54,16 @@ resource "aws_subnet" "private" {
   cidr_block        = cidrsubnet(var.vpc_cidr, 8, 2)
   availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
-    Name = "${var.project_name}-private"
+    Name = "${var.project_name}-private-a"
+  }
+}
+
+resource "aws_subnet" "private_b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, 3)
+  availability_zone = data.aws_availability_zones.available.names[1]
+  tags = {
+    Name = "${var.project_name}-private-b"
   }
 }
 
@@ -76,7 +85,10 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_db_subnet_group" "main" {
   name       = "${var.project_name}-db-subnet"
-  subnet_ids = [aws_subnet.private.id]
+  subnet_ids = [
+    aws_subnet.private.id,
+    aws_subnet.private_b.id,
+  ]
   tags = {
     Name = "${var.project_name}-db-subnet"
   }

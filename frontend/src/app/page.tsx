@@ -37,4 +37,5 @@ function Landing() {
 
 function RedirectToNotes() {
   redirect("/notes");
+  return null;
 }

@@ -23,9 +23,9 @@ variable "ssh_cidr_blocks" {
 }
 
 variable "ec2_instance_type" {
-  description = "EC2 instance type (t2.micro for Free Tier)"
+  description = "EC2 instance type (t3.micro is Free Tier eligible in most regions)"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "ec2_key_name" {
@@ -34,9 +34,9 @@ variable "ec2_key_name" {
 }
 
 variable "rds_instance_class" {
-  description = "RDS instance class (db.t2.micro for Free Tier)"
+  description = "RDS instance class (db.t3.micro is Free Tier eligible in most regions)"
   type        = string
-  default     = "db.t2.micro"
+  default     = "db.t3.micro"
 }
 
 variable "skip_final_snapshot" {

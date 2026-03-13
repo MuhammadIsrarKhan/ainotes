@@ -4,7 +4,7 @@ aws_region   = "us-east-1"
 project_name = "ai-notes"
 
 # Name of an existing EC2 key pair in the region (for SSH).
-ec2_key_name = "my-key-pair"
+ec2_key_name = "ainotes"
 
 # Restrict SSH to your IP (e.g. "1.2.3.4/32"). Use "0.0.0.0/0" only for testing.
 ssh_cidr_blocks = ["0.0.0.0/0"]
