@@ -30,8 +30,8 @@ jobs:
         run: |
           cd backend
           pnpm install --frozen-lockfile
-          pnpm run build
           pnpm run prisma:generate
+          pnpm run build
 
       - name: Build frontend
         env:
