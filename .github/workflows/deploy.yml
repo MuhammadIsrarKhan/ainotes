@@ -15,16 +15,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
 
       - name: Build backend
         run: |
@@ -64,4 +64,4 @@ jobs:
           rsync -avz -e "ssh -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no" \
             deploy/ "$EC2_HOST:ainotes/deploy/"
           ssh -i ~/.ssh/deploy_key.pem -o StrictHostKeyChecking=no "$EC2_HOST" \
-            'cd ainotes/backend && pnpm install --frozen-lockfile && pnpm run prisma migrate deploy; cd ../frontend && pnpm install --frozen-lockfile --prod; cd .. && pm2 reload deploy/ecosystem.config.cjs --update-env || pm2 start deploy/ecosystem.config.cjs'
+            'cd ainotes/backend && npx pnpm install --frozen-lockfile && npx pnpm run prisma migrate deploy; cd ../frontend && npx pnpm install --frozen-lockfile --prod; cd .. && pm2 reload deploy/ecosystem.config.cjs --update-env || pm2 start deploy/ecosystem.config.cjs'
